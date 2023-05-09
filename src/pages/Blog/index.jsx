@@ -15,16 +15,49 @@ import Tag from '../../components/common/Tag';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
+import { fetchInfoBlogApi } from '../../api/blogsAPI';
+import { fetchListCommentsApi } from '../../api/commentsAPI';
+import CommentModal from './components/CommentModal';
+const initialCommentValue = {
+  "username": "",
+  "comment": "",
+  "rating": "",
+}
 const Blog = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
-
-  useEffect(() => {
-    let blog = blogList.find((blog) => blog.id === parseInt(id));
-    if (blog) {
-      setBlog(blog);
+  const [comments, setComments] = useState([]);
+  const [openCommentDialog, setOpenCommentDialog] = useState(false);
+  const [commentParams, setCommentParams] = useState(initialCommentValue);
+  useEffect(async () => {
+    const result = await fetchInfoBlogApi(id);
+    if (result) {
+      setBlog(result.data.data);
     }
   }, []);
+  useEffect(async () => {
+    if (blog) {
+      const result = await fetchListCommentsApi({ productObjId: blog?._id });
+      if (result) {
+        setComments(result.data.data)
+      }
+    }
+  }, [blog])
+  const handleOpenCommentDialog = () => {
+    setOpenCommentDialog(true);
+  }
+  const handleCloseCommentDialog = () => {
+    setOpenCommentDialog(false);
+  }
+  const handleSubmitComment = () => {
+    setOpenCommentDialog(false);
+  }
+  const handleOnChange = (event) => {
+    setCommentParams({
+      ...commentParams,
+      [event.target.name]: event.target.value,
+    })
+  }
   const dataSample = [{}, {}, {}];
   const dataTagList = [{}, {}, {}];
   return (
@@ -42,25 +75,25 @@ const Blog = () => {
               <div className='blog-wrap'>
                 <header>
                   <p className='blog-date'>Published {blog.createdAt}</p>
-                  <h1>{blog.title}</h1>
+                  <h1>{blog.blogName}</h1>
                   <div className='blog-subCategory'>
                     <Chip label={blog.category} />
                   </div>
                 </header>
-                <img src={blog.cover} alt='cover' />
+                <img src={blog.image} alt='cover' />
                 <p className='blog-desc border-bottom'>{blog.description}</p>
                 <div className="d-flex justify-content-between align-items-center">
                   <Button className="btn-grad sm">
                     Edit
                   </Button>
                   <div className="d-flex justify-content-end tag-list mb-2">
-                    {dataTagList.map((tag, index) => {
+                    {blog.tags.map((tag, index) => {
                       if (index > 2) {
                         if (index > 3) return;
                         return <span className="me-2 d-flex align-items-end">...</span>
                       } else {
                         return <Tag
-                          label="tag1"
+                          label={tag}
                         />
                       }
                     })
@@ -72,12 +105,19 @@ const Blog = () => {
                     <h2 className="comment-title">
                       Blog comment
                     </h2>
-                    <Button variant="primary">
-                      <FontAwesomeIcon style={{ color: "#fff" }} icon={faComment} />
+                    <Button
+                      onClick={handleOpenCommentDialog}
+                      variant="primary">
+                      <FontAwesomeIcon
+                        style={{ color: "#fff" }}
+                        icon={faComment} />
                     </Button>
                   </div>
                   <div className="mt-2">
-                    <CommentsComponent />
+                    <CommentsComponent
+                      comments={comments}
+
+                    />
                   </div>
                 </div>
               </div>
@@ -119,6 +159,14 @@ const Blog = () => {
             ))}
           </Col>
         </Row>
+        <CommentModal
+          show={openCommentDialog}
+          handleClose={handleCloseCommentDialog}
+          handleSubmit={handleSubmitComment}
+          handleOnChange={handleOnChange}
+          commentParams={commentParams}
+
+        />
       </Container >
 
 

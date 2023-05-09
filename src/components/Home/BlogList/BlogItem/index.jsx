@@ -6,30 +6,30 @@ import './styles.css';
 const BlogItem = ({
   blog: {
     description,
-    title,
+    blogName,
     createdAt,
     authorName,
     authorAvatar,
-    cover,
+    image,
     category,
-    id,
+    _id,
   },
 }) => {
   return (
     <div className='blogItem-wrap'>
-      <img className='blogItem-cover' src={cover} alt='cover' />
+      <img className='blogItem-cover' src={image} alt='image' />
       <Chip label={category} />
-      <h3>{title}</h3>
+      <h3>{blogName}</h3>
       <p className='blogItem-desc'>{description}</p>
       <footer>
         <div className='blogItem-author'>
-          <img src={authorAvatar} alt='avatar' />
+          <img src='/assets/images/author.jpg' alt='avatar' />
           <div>
-            <h6>{authorName}</h6>
+            <h6>John Doe</h6>
             <p>{createdAt}</p>
           </div>
         </div>
-        <Link className='blogItem-link' to={`/blog/${id}`}>
+        <Link className='blogItem-link' to={`/blog/${_id}`}>
           ➝
         </Link>
       </footer>

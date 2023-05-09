@@ -6,24 +6,10 @@ import './style.css'
 import RatingStar from '../../../components/common/RatingStar';
 
 const CommentsComponent = (props) => {
-    const { dataList } = props;
-    const dataSample = [
-        {
-
-        },
-        {
-
-        },
-        {
-
-        },
-        {
-
-        },
-    ];
+    const { comments } = props;
     return (
         <Container>
-            {dataSample.map((data) => (
+            {comments.map((data) => (
                 <Row className="comment-item d-flex align-items-center mb-4">
                     <Col sm={2}>
                         <div className="avatar d-flex align-items-center justify-content-center">
@@ -32,11 +18,10 @@ const CommentsComponent = (props) => {
                     </Col>
                     <Col sm={10}>
                         <div className="d-flex justify-content-between">
-                            <h4>Lorem Ipsum</h4>
-                            <RatingStar maxRating={5} value={4} isShowValue={true} />
+                            <h4>User</h4>
+                            <RatingStar maxRating={5} value={data?.rating} isShowValue={true} />
                         </div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat quod autem numquam dolorem eaque molestias ipsam doloribus illum assumenda,
-                            eum nemo necessitatibus illo ut quam voluptatum alias voluptas suscipit nulla.</p>
+                        <p>{data?.comment}</p>
                     </Col>
                 </Row>
             ))}

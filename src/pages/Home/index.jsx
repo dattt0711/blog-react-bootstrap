@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EmptyList from '../../components/common/EmptyList';
 import BlogList from '../../components/Home/BlogList';
 import Header from '../../components/Home/Header';
@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import CreateModal from '../../components/Home/CreateModal';
 import RatingStar from '../../components/common/RatingStar';
 import PaginationComponent from '../../components/common/Pagination';
+import { fetchCreateBlog, fetchDeleteBlogApi, fetchListBlogsApi, fetchEditBlog } from '../../api/blogsAPI.jsx';
 const initialValue = {
   blogName: '',
   description: '',
@@ -20,11 +21,25 @@ const options = [
   { value: 'strawberry', label: 'Strawberry' },
   { value: 'vanilla', label: 'Vanilla' }
 ]
+const initPaginator = {
+  pageCount: 10,
+  currentPage: 1
+}
 const Home = () => {
   const [blogs, setBlogs] = useState(blogList);
+  const [paginator, setPaginator] = useState(initPaginator);
   const [searchKey, setSearchKey] = useState('');
   const [show, setShow] = useState(false);
   const [createParams, setCreateParams] = useState(initialValue);
+
+  useEffect(async () => {
+    const result = await fetchListBlogsApi();
+    if (result.data.success) {
+      setBlogs(result.data.data.items);
+      setPaginator(result.data.data.paginator);
+    }
+  }, [])
+
 
   // Handle Dialog
   const handleCloseCreateModal = () => {
@@ -34,7 +49,7 @@ const Home = () => {
   const handleOpenCreateModal = () => {
     setShow(true);
   }
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let formatTags = [];
     if (Array.isArray(createParams.tags)) {
       if (createParams.tags.length > 0) {
@@ -45,7 +60,7 @@ const Home = () => {
       ...createParams,
       tags: formatTags
     }
-    console.log(tempParams, 'tempParams')
+    await fetchCreateBlog(tempParams);
     setShow(false);
     setCreateParams(initialValue)
   }
@@ -101,11 +116,10 @@ const Home = () => {
       <div style={{ textAlign: 'right', margin: '20px 0' }}>
         <Button onClick={() => handleOpenCreateModal()} className="btn-grad">Create</Button>
       </div>
-      <RatingStar maxRating={5} />
       {/* Blog List & Empty View */}
       {!blogs.length ? <EmptyList /> : <BlogList blogs={blogs} />}
       <div className="d-flex justify-content-center mt-2">
-        <PaginationComponent />
+        <PaginationComponent paginator={paginator} />
       </div>
 
       <CreateModal

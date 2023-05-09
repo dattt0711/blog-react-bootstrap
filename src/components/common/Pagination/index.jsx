@@ -2,10 +2,11 @@ import React from 'react';
 import Pagination from 'react-bootstrap/Pagination';
 
 
-export default function PaginationComponent() {
-    let active = 2;
-    let items = [];
-    for (let number = 1; number <= 5; number++) {
+export default function PaginationComponent(props) {
+    const { paginator } = props
+    const active = paginator.currentPage;
+    const items = [];
+    for (let number = 1; number <= paginator.pageCount; number++) {
         items.push(
             <Pagination.Item key={number} active={number === active}>
                 {number}
