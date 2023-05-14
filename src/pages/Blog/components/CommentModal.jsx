@@ -2,11 +2,11 @@ import React from 'react'
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select'
-import ModalComponent from 'D:/third year/web/web/react/blog-react/react-beginner-blog/beginners-blog/src/components/common/Modal/index.jsx';
+import ModalComponent from '../../../components/common/Modal/index.jsx';
 import RatingStar from '../../../components/common/RatingStar';
 const CommentModal = (props) => {
     const { handleClose, handleSubmit, title, show,
-        commentParams, handleOnChange
+        commentParams, handleOnChange, handleRating
     } = props;
     return (
         <ModalComponent
@@ -29,7 +29,7 @@ const CommentModal = (props) => {
                 <Form.Group className="mb-3">
                     <Form.Label>Rating</Form.Label>
                     <div>
-                        <RatingStar />
+                        <RatingStar maxRating={5} handleRating={handleRating} />
                     </div>
                 </Form.Group>
                 <Form.Group className="mb-3">

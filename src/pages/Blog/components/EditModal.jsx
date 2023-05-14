@@ -1,11 +1,11 @@
 import React from 'react'
-import ModalComponent from '../../common/Modal';
+import ModalComponent from '../../../components/common/Modal';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select'
-const CreateModal = (props) => {
+const EditModal = (props) => {
     const { handleClose, handleSubmit, title, show,
-        createParams, handleOnChange, options
+        editParams, handleOnChange, options
     } = props;
 
     return (
@@ -19,7 +19,7 @@ const CreateModal = (props) => {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Blog name</Form.Label>
                     <Form.Control
-                        value={createParams.blogName}
+                        value={editParams.blogName}
                         onChange={(event) => handleOnChange(event)}
                         type="text"
                         placeholder="Enter blog name"
@@ -32,7 +32,7 @@ const CreateModal = (props) => {
                         type="text"
                         placeholder="Enter description"
                         name="description"
-                        value={createParams.description}
+                        value={editParams.description}
                         onChange={(event) => handleOnChange(event)}
                     />
                 </Form.Group>
@@ -41,7 +41,7 @@ const CreateModal = (props) => {
                     <Form.Select
                         name="category"
                         aria-label="Default select example"
-                        value={createParams.category}
+                        value={editParams.category}
                         onChange={(event) => handleOnChange(event)}
                     >
                         <option value="">Open this category menu</option>
@@ -59,7 +59,7 @@ const CreateModal = (props) => {
                         type="text"
                         placeholder="Enter URL"
                         name="image"
-                        value={createParams.image}
+                        value={editParams.image}
                         onChange={(event) => handleOnChange(event)}
                     />
                 </Form.Group>
@@ -71,7 +71,7 @@ const CreateModal = (props) => {
                         options={options}
                         isMulti
                         placeholder="Select tags"
-                        value={createParams.tags}
+                        value={editParams.tags}
                         onChange={(event) => handleOnChange(event, "tags")}
                     />
                 </Form.Group>
@@ -80,4 +80,4 @@ const CreateModal = (props) => {
     )
 }
 
-export default CreateModal;
+export default EditModal;

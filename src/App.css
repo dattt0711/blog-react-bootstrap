@@ -24,31 +24,31 @@ input {
 }
 
 .wrapper {
-  background-color: #C3A5C3;
+  background-color: #E9D5FF;
   width: 100%;
 }
 
 .btn-grad {
-  background-image: linear-gradient(to right, #fc00ff 0%, #00dbde 51%, #fc00ff 100%);
+  /* background-image: linear-gradient(to right, #fc00ff 0%, #00dbde 51%, #fc00ff 100%); */
+  background-color: #7E22CE !important;
   margin: 10px;
-  padding: 15px 45px;
+  padding: 6px 20px !important;
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
   box-shadow: 0 0 20px #eee;
-  border-radius: 10px;
+  border-radius: 20px !important;
   display: block;
   outline: none !important;
   border: none !important;
-  font-size: 1rem !important;
+  font-size: 0.8rem !important;
 }
 
 .btn-grad.sm {
-  font-size: 0.8rem !important;
-  padding: 10px 30px;
-
+  font-size: 0.6rem !important;
+  padding: 6px 20px !important;
 }
 
 .btn-grad:hover {
@@ -58,4 +58,5 @@ input {
   text-decoration: none;
   outline: none !important;
   border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }

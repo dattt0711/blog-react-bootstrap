@@ -4,11 +4,12 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import './style.css';
 
 function RatingStar(props) {
-    const { isShowValue, value, maxRating } = props;
+    const { isShowValue, value, maxRating, handleRating } = props;
     const [rating, setRating] = useState(0);
 
     function handleRatingClick(index) {
         setRating(index + 1);
+        handleRating(index + 1);
     }
 
     return isShowValue ? (

@@ -21,3 +21,31 @@
   color: #000;
   font-weight: 500;
 }
+
+.logo-text {
+  color: #7E22CE;
+  font-size: 24px;
+}
+
+.img-header {
+  background-color: #fff;
+}
+
+.box-header {
+  background-color: #C084FC;
+  border-radius: 30px;
+  width: 80% !important;
+}
+
+.left-box {
+  text-align: left;
+}
+
+.left-box h2 {
+  color: #fff;
+}
+
+.left-box p {
+  margin: 0;
+  color: #000;
+}

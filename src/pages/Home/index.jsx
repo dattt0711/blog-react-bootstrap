@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import EmptyList from '../../components/common/EmptyList';
 import BlogList from '../../components/Home/BlogList';
 import Header from '../../components/Home/Header';
-import SearchBar from '../../components/Home/SearchBar';
 import { blogList } from '../../config/data';
 import Button from 'react-bootstrap/Button';
 import CreateModal from '../../components/Home/CreateModal';
@@ -104,18 +103,8 @@ const Home = () => {
   return (
     <div>
       {/* Page Header */}
-      <Header />
-
-      {/* Search Bar */}
-      <SearchBar
-        value={searchKey}
-        clearSearch={handleClearSearch}
-        formSubmit={handleSearchBar}
-        handleSearchKey={(e) => setSearchKey(e.target.value)}
-      />
-      <div style={{ textAlign: 'right', margin: '20px 0' }}>
-        <Button onClick={() => handleOpenCreateModal()} className="btn-grad">Create</Button>
-      </div>
+      <Header handleOpenCreateModal={handleOpenCreateModal} />
+      
       {/* Blog List & Empty View */}
       {!blogs.length ? <EmptyList /> : <BlogList blogs={blogs} />}
       <div className="d-flex justify-content-center mt-2">

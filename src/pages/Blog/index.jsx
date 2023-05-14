@@ -15,29 +15,61 @@ import Tag from '../../components/common/Tag';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
-import { fetchInfoBlogApi } from '../../api/blogsAPI';
-import { fetchListCommentsApi } from '../../api/commentsAPI';
+import { fetchInfoBlogApi, fetchEditBlog, fetchRelatedListBlogsApi } from '../../api/blogsAPI';
+import { fetchListCommentsApi, fetchCreateComment } from '../../api/commentsAPI';
 import CommentModal from './components/CommentModal';
+import EditModal from './components/EditModal';
 const initialCommentValue = {
   "username": "",
   "comment": "",
   "rating": "",
 }
+const initialValue = {
+  blogName: '',
+  description: '',
+  category: '',
+  tags: '',
+  image: '',
+}
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+]
 const Blog = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
   const [comments, setComments] = useState([]);
   const [openCommentDialog, setOpenCommentDialog] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [commentParams, setCommentParams] = useState(initialCommentValue);
+  const [editParams, setEditParams] = useState(initialValue);
+  const [relatedList, setRelatedList] = useState([]);
   useEffect(async () => {
     const result = await fetchInfoBlogApi(id);
     if (result) {
       setBlog(result.data.data);
+      const tempTags = result.data.data.tags.map(tag => {
+        const findTag = options.find(op => op.value === tag);
+        if (findTag) return findTag;
+        return {
+          value: tag,
+          label: "Not found"
+        }
+      })
+      setEditParams({
+        ...result.data.data,
+        tags: tempTags,
+      });
+      const dataRelatedList = await fetchRelatedListBlogsApi({
+        category: result.data.data.category,
+      })
+      setRelatedList(dataRelatedList.data.data.items);
     }
   }, []);
   useEffect(async () => {
     if (blog) {
-      const result = await fetchListCommentsApi({ productObjId: blog?._id });
+      const result = await fetchListCommentsApi({ blogObjId: blog?._id });
       if (result) {
         setComments(result.data.data)
       }
@@ -47,9 +79,15 @@ const Blog = () => {
     setOpenCommentDialog(true);
   }
   const handleCloseCommentDialog = () => {
+    setCommentParams(initialCommentValue);
     setOpenCommentDialog(false);
   }
-  const handleSubmitComment = () => {
+  const handleSubmitComment = async () => {
+    await fetchCreateComment({
+      ...commentParams,
+      blogId: id,
+    });
+    setCommentParams(initialCommentValue);
     setOpenCommentDialog(false);
   }
   const handleOnChange = (event) => {
@@ -58,8 +96,52 @@ const Blog = () => {
       [event.target.name]: event.target.value,
     })
   }
+  const handleRating = (rating) => {
+    setCommentParams({
+      ...commentParams,
+      rating,
+    })
+  }
+  // Edit blog
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+  }
+  const handleOpenEditModal = () => {
+    setShowEditModal(true);
+  }
+  const handleSubmitEdit = async () => {
+    let formatTags = [];
+    if (Array.isArray(editParams.tags)) {
+      if (editParams.tags.length > 0) {
+        formatTags = editParams.tags.map(tag => tag?.value);
+      }
+    }
+    const tempParams = {
+      ...editParams,
+      tags: formatTags,
+      blogId: id,
+    }
+    await fetchEditBlog(tempParams);
+    setShowEditModal(false);
+    setEditParams(initialValue)
+  }
+
+  // handle edit
+  const handleOnChangeEdit = (event, type = null) => {
+    if (type) {
+      setEditParams({
+        ...editParams,
+        tags: event,
+      })
+    } else {
+      setEditParams({
+        ...editParams,
+        [event.target.name]: event.target.value,
+      })
+    }
+  }
   const dataSample = [{}, {}, {}];
-  const dataTagList = [{}, {}, {}];
+  // const dataTagList = [{}, {}, {}];
   return (
     <>
       <Link className='blog-goBack' to='/'>
@@ -83,7 +165,7 @@ const Blog = () => {
                 <img src={blog.image} alt='cover' />
                 <p className='blog-desc border-bottom'>{blog.description}</p>
                 <div className="d-flex justify-content-between align-items-center">
-                  <Button className="btn-grad sm">
+                  <Button onClick={handleOpenEditModal} className="btn-grad sm">
                     Edit
                   </Button>
                   <div className="d-flex justify-content-end tag-list mb-2">
@@ -127,22 +209,21 @@ const Blog = () => {
           </Col>
           <Col sm={3} className="mt-4">
             <h3>Related blog</h3>
-            {dataSample.map(data => (
+            {relatedList.map(data => (
               <Card style={{ maxWidth: '18rem' }} className="mb-5">
                 <Card.Img variant="top" src="http://localhost:3000/assets/images/designer-1.jpg" />
                 <Card.Body>
                   <Card.Title>
                     <div className="d-flex justify-content-between">
-                      <span>Card Sample</span>
-                      <RatingStar maxRating={5} value={4} isShowValue={true} />
+                      <span>{data.blogName}</span>
+                      {/* <RatingStar maxRating={5} value={data.rating} isShowValue={true} /> */}
                     </div>
                   </Card.Title>
                   <Card.Text className="border-bottom pb-2">
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
+                    {data.description}
                   </Card.Text>
                   <div className="d-flex justify-content-end tag-list">
-                    {dataTagList.map((tag, index) => {
+                    {data?.tags?.length > 0 && blog.tags.map((tag, index) => {
                       if (index > 2) {
                         if (index > 3) return;
                         return <span className="me-2 d-flex align-items-end">...</span>
@@ -165,7 +246,16 @@ const Blog = () => {
           handleSubmit={handleSubmitComment}
           handleOnChange={handleOnChange}
           commentParams={commentParams}
-
+          handleRating={handleRating}
+        />
+        <EditModal
+          show={showEditModal}
+          handleClose={handleCloseEditModal}
+          handleSubmit={handleSubmitEdit}
+          title={'Edit a blog'}
+          handleOnChange={handleOnChangeEdit}
+          editParams={editParams}
+          options={options}
         />
       </Container >
 
