@@ -10,7 +10,7 @@ const CommentsComponent = (props) => {
     return (
         <Container>
             {comments.map((data) => (
-                <Row className="comment-item d-flex align-items-center mb-4">
+                <Row className="comment-item d-flex align-items-center mb-4 pt-2">
                     <Col sm={2}>
                         <div className="avatar d-flex align-items-center justify-content-center">
                             <img src="/assets/images/author.jpg" alt="" />

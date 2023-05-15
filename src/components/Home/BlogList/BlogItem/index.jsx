@@ -27,7 +27,7 @@ const BlogItem = ({
         <div className='blogItem-author'>
           <img src='/assets/images/author.jpg' alt='avatar' />
           <div>
-            <h6>John Doe</h6>
+            <h6>Admin</h6>
             <p>{createdAt}</p>
           </div>
         </div>

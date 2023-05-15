@@ -76,7 +76,7 @@ const Blog = () => {
       })
       setRelatedList(dataRelatedList.data.data.items);
     }
-  }, [render]);
+  }, [render, id]);
   useEffect(async () => {
     if (blog) {
       const result = await fetchListCommentsApi({ blogObjId: blog?._id });
@@ -224,11 +224,13 @@ const Blog = () => {
             <h3>Related blog</h3>
             {relatedList.map(data => (
               <Card style={{ maxWidth: '18rem' }} className="mb-5">
-                <Card.Img variant="top" src={data.image} />
+                <Card.Img variant="top" src={data.image} style={{ maxHeight: "150px", objectFit: "cover" }} />
                 <Card.Body>
                   <Card.Title>
                     <div className="d-flex justify-content-between">
-                      <span>{data.blogName}</span>
+                      <Link style={{ cursor: "pointer", textDecoration: "none", color: "#000" }} to={`/blog/${data._id}`}>
+                        <span style={{ cursor: "pointer", textDecoration: "none" }}>{data.blogName}</span>
+                      </Link>
                       {/* <RatingStar maxRating={5} value={data.rating} isShowValue={true} /> */}
                     </div>
                   </Card.Title>
@@ -242,7 +244,7 @@ const Blog = () => {
                         return <span className="me-2 d-flex align-items-end">...</span>
                       } else {
                         return <Tag
-                          label="tag1"
+                          label={tag}
                         />
                       }
                     })

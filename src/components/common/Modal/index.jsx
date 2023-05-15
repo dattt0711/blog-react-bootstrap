@@ -10,10 +10,10 @@ function ModalComponent(props) {
             </Modal.Header>
             <Modal.Body>{children}</Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button className="btn-close-grad" variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={handleSubmit}>
+                <Button className="btn-grad" variant="primary" onClick={handleSubmit}>
                     Save
                 </Button>
             </Modal.Footer>

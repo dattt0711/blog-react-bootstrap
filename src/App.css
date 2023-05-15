@@ -60,3 +60,36 @@ input {
   border: none !important;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
+
+.btn-close-grad {
+  /* background-image: linear-gradient(to right, #fc00ff 0%, #00dbde 51%, #fc00ff 100%); */
+  background-color: #fff !important;
+  margin: 10px;
+  padding: 6px 20px !important;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: #7E22CE !important;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 20px !important;
+  display: block;
+  outline: none !important;
+  border: none !important;
+  font-size: 0.8rem !important;
+}
+
+/* .btn-grad.sm {
+  font-size: 0.6rem !important;
+  padding: 6px 20px !important;
+} */
+
+.btn-close-grad:hover {
+  background-position: right center;
+  /* change the direction of the change here */
+  color: #7E22CE;
+  text-decoration: none;
+  outline: none !important;
+  border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
