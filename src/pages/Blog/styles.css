@@ -41,6 +41,7 @@
 .blog-desc {
   padding: 1rem;
   margin-top: 1.5rem;
+  border-bottom: 1px solid #000 !important;
 }
 
 .tag-list {

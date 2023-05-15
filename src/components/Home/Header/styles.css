@@ -49,3 +49,14 @@
   margin: 0;
   color: #000;
 }
+
+.star-header {
+  color: #fff;
+}
+
+.active>.page-link,
+.page-link.active {
+  border: none;
+  outline: none;
+  background: #C084FC !important
+}

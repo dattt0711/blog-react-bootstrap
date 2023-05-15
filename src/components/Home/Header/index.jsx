@@ -5,17 +5,23 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import SearchBar from '../SearchBar';
 import { Button } from 'react-bootstrap';
-import StarImage from '../../../images/star.png';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import FeedIcon from '@mui/icons-material/Feed';
 const Header = (props) => {
-  const { handleOpenCreateModal } = props;
+  const { handleOpenCreateModal, handleSearch, filters } = props;
   return <header className='home-header'>
     <Container>
       <Row className="d-flex align-items-center mb-3">
         <Col sm={2}>
-          <span className="logo-text">Your Blog</span>
+          <div className="d-flex align-items-center">
+            <FeedIcon className="logo-text me-2" />
+            <span className="logo-text">Your Blog</span>
+          </div>
         </Col>
         <Col sm={8} >
           <SearchBar
+            handleSearch={handleSearch}
+            filters={filters}
           // value={searchKey}
           // clearSearch={handleClearSearch}
           // formSubmit={handleSearchBar}
@@ -30,14 +36,19 @@ const Header = (props) => {
       </Row>
       <Row >
         <Container className="box-header mb-4">
-          <Col sm={8} className="left-box ps-5">
-            <h2>This is Your Blog</h2>
-            <p>Awesome place to make oneself</p>
-            <p>Productive have entertained through daily updates</p>
-          </Col>
-          <Col sm={4}>
-            {/* <img className="img-header" src={StarImage} alt="" /> */}
-          </Col>
+          <Row className="d-flex align-items-center">
+            <Col sm={8} className="left-box ps-5">
+              <h2>This is Your Blog</h2>
+              <p>Awesome place to make oneself</p>
+              <p>Productive have entertained through daily updates</p>
+            </Col>
+            <Col sm={4}>
+              <span className="star-header">
+                <AutoAwesomeIcon style={{ fontSize: "55px" }} />
+              </span>
+            </Col>
+          </Row>
+
         </Container>
       </Row>
     </Container>

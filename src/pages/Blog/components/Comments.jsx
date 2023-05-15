@@ -13,7 +13,7 @@ const CommentsComponent = (props) => {
                 <Row className="comment-item d-flex align-items-center mb-4">
                     <Col sm={2}>
                         <div className="avatar d-flex align-items-center justify-content-center">
-                            <img src="http://localhost:3000/assets/images/designer-1.jpg" alt="" />
+                            <img src="/assets/images/author.jpg" alt="" />
                         </div>
                     </Col>
                     <Col sm={10}>

@@ -16,13 +16,26 @@ const initialValue = {
   image: '',
 }
 const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
+  { value: 'sport', label: 'Sport' },
+  { value: 'social', label: 'Social' },
+  { value: 'health', label: 'Health' },
+  { value: 'tech', label: 'Tech' },
+  { value: 'drama', label: 'Drama' },
+  { value: 'travel', label: 'Travel' },
+  { value: 'fitness', label: 'Fitness' },
+  { value: 'beauty', label: 'Beauty' },
+  { value: 'fashion', label: 'Fashion' },
+  { value: 'environment', label: 'Enviroment' },
+  { value: 'politics', label: 'Politics' },
+  { value: 'finance', label: 'Finance' },
 ]
 const initPaginator = {
-  pageCount: 10,
+  pageCount: 6,
   currentPage: 1
+}
+const initialFilters = {
+  page: 1,
+  search: '',
 }
 const Home = () => {
   const [blogs, setBlogs] = useState(blogList);
@@ -30,15 +43,16 @@ const Home = () => {
   const [searchKey, setSearchKey] = useState('');
   const [show, setShow] = useState(false);
   const [createParams, setCreateParams] = useState(initialValue);
+  const [filters, setFilters] = useState(initialFilters);
+  const [reset, setReset] = useState(false);
 
   useEffect(async () => {
-    const result = await fetchListBlogsApi();
+    const result = await fetchListBlogsApi(filters);
     if (result.data.success) {
       setBlogs(result.data.data.items);
       setPaginator(result.data.data.paginator);
     }
-  }, [])
-
+  }, [filters, reset])
 
   // Handle Dialog
   const handleCloseCreateModal = () => {
@@ -61,7 +75,8 @@ const Home = () => {
     }
     await fetchCreateBlog(tempParams);
     setShow(false);
-    setCreateParams(initialValue)
+    setCreateParams(initialValue);
+    setReset(true);
   }
 
   // handle create 
@@ -79,11 +94,6 @@ const Home = () => {
     }
   }
 
-  // Search submit
-  const handleSearchBar = (e) => {
-    e.preventDefault();
-    handleSearchResults();
-  };
 
   // Search for blog by category
   const handleSearchResults = () => {
@@ -95,20 +105,32 @@ const Home = () => {
   };
 
   // Clear search and show all blogs
-  const handleClearSearch = () => {
-    setBlogs(blogList);
-    setSearchKey('');
+  const handleSearch = (event) => {
+    setFilters({
+      ...filters,
+      search: event.target.value,
+    })
   };
 
+  const handlePagination = (value) => {
+    setFilters({
+      ...filters,
+      page: value,
+    })
+  }
   return (
-    <div>
+    <div style={{ minHeight: "100vh" }}>
       {/* Page Header */}
-      <Header handleOpenCreateModal={handleOpenCreateModal} />
-      
+      <Header
+        handleOpenCreateModal={handleOpenCreateModal}
+        handleSearch={handleSearch}
+        filters={filters}
+      />
+
       {/* Blog List & Empty View */}
       {!blogs.length ? <EmptyList /> : <BlogList blogs={blogs} />}
-      <div className="d-flex justify-content-center mt-2">
-        <PaginationComponent paginator={paginator} />
+      <div className="d-flex justify-content-center mt-5">
+        <PaginationComponent handlePagination={handlePagination} paginator={paginator} />
       </div>
 
       <CreateModal

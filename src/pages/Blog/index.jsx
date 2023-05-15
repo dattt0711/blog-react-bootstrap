@@ -32,9 +32,18 @@ const initialValue = {
   image: '',
 }
 const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
+  { value: 'sport', label: 'Sport' },
+  { value: 'social', label: 'Social' },
+  { value: 'health', label: 'Health' },
+  { value: 'tech', label: 'Tech' },
+  { value: 'drama', label: 'Drama' },
+  { value: 'travel', label: 'Travel' },
+  { value: 'fitness', label: 'Fitness' },
+  { value: 'beauty', label: 'Beauty' },
+  { value: 'fashion', label: 'Fashion' },
+  { value: 'environment', label: 'Enviroment' },
+  { value: 'politics', label: 'Politics' },
+  { value: 'finance', label: 'Finance' },
 ]
 const Blog = () => {
   const { id } = useParams();
@@ -163,7 +172,7 @@ const Blog = () => {
                   </div>
                 </header>
                 <img src={blog.image} alt='cover' />
-                <p className='blog-desc border-bottom'>{blog.description}</p>
+                <p className='blog-desc'>{blog.description}</p>
                 <div className="d-flex justify-content-between align-items-center">
                   <Button onClick={handleOpenEditModal} className="btn-grad sm">
                     Edit
@@ -188,6 +197,7 @@ const Blog = () => {
                       Blog comment
                     </h2>
                     <Button
+                      className="btn-grad sm"
                       onClick={handleOpenCommentDialog}
                       variant="primary">
                       <FontAwesomeIcon
@@ -211,7 +221,7 @@ const Blog = () => {
             <h3>Related blog</h3>
             {relatedList.map(data => (
               <Card style={{ maxWidth: '18rem' }} className="mb-5">
-                <Card.Img variant="top" src="http://localhost:3000/assets/images/designer-1.jpg" />
+                <Card.Img variant="top" src={data.image} />
                 <Card.Body>
                   <Card.Title>
                     <div className="d-flex justify-content-between">

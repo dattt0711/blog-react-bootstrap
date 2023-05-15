@@ -3,6 +3,20 @@ import ModalComponent from '../../common/Modal';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select'
+const options = [
+    { value: 'sport', label: 'Sport' },
+    { value: 'social', label: 'Social' },
+    { value: 'health', label: 'Health' },
+    { value: 'tech', label: 'Tech' },
+    { value: 'drama', label: 'Drama' },
+    { value: 'travel', label: 'Travel' },
+    { value: 'fitness', label: 'Fitness' },
+    { value: 'beauty', label: 'Beauty' },
+    { value: 'fashion', label: 'Fashion' },
+    { value: 'environment', label: 'Enviroment' },
+    { value: 'politics', label: 'Politics' },
+    { value: 'finance', label: 'Finance' },
+]
 const CreateModal = (props) => {
     const { handleClose, handleSubmit, title, show,
         createParams, handleOnChange, options

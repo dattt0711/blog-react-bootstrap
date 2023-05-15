@@ -1,16 +1,15 @@
 import React from 'react';
 import './styles.css';
 
-const SearchBar = ({ formSubmit, value, handleSearchKey, clearSearch }) => (
+const SearchBar = ({ handleSearch, filters }) => (
   <div className='searchBar-wrap'>
-    <form onSubmit={formSubmit}>
+    <form >
       <input
         type='text'
         placeholder='Search by blog name or category ...'
-        value={value}
-        onChange={handleSearchKey}
+        value={filters.search}
+        onChange={(event) => handleSearch(event)}
       />
-      {value && <span onClick={clearSearch}>X</span>}
     </form>
   </div>
 );
