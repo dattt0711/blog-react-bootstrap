@@ -15,7 +15,7 @@ import Tag from '../../components/common/Tag';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
-import { fetchInfoBlogApi, fetchEditBlog, fetchRelatedListBlogsApi } from '../../api/blogsAPI';
+import { fetchInfoBlogApi, fetchEditBlog, fetchRelatedListBlogsApi, fetchDeleteBlogApi } from '../../api/blogsAPI';
 import { fetchListCommentsApi, fetchCreateComment } from '../../api/commentsAPI';
 import CommentModal from './components/CommentModal';
 import EditModal from './components/EditModal';
@@ -54,6 +54,7 @@ const Blog = () => {
   const [commentParams, setCommentParams] = useState(initialCommentValue);
   const [editParams, setEditParams] = useState(initialValue);
   const [relatedList, setRelatedList] = useState([]);
+  const [render, setRender] = useState(false);
   useEffect(async () => {
     const result = await fetchInfoBlogApi(id);
     if (result) {
@@ -75,7 +76,7 @@ const Blog = () => {
       })
       setRelatedList(dataRelatedList.data.data.items);
     }
-  }, []);
+  }, [render]);
   useEffect(async () => {
     if (blog) {
       const result = await fetchListCommentsApi({ blogObjId: blog?._id });
@@ -83,7 +84,7 @@ const Blog = () => {
         setComments(result.data.data)
       }
     }
-  }, [blog])
+  }, [blog, render])
   const handleOpenCommentDialog = () => {
     setOpenCommentDialog(true);
   }
@@ -98,6 +99,7 @@ const Blog = () => {
     });
     setCommentParams(initialCommentValue);
     setOpenCommentDialog(false);
+    setRender((prev) => !prev);
   }
   const handleOnChange = (event) => {
     setCommentParams({
@@ -132,7 +134,8 @@ const Blog = () => {
     }
     await fetchEditBlog(tempParams);
     setShowEditModal(false);
-    setEditParams(initialValue)
+    setEditParams(initialValue);
+    setRender(prev => !prev);
   }
 
   // handle edit
@@ -257,6 +260,7 @@ const Blog = () => {
           handleOnChange={handleOnChange}
           commentParams={commentParams}
           handleRating={handleRating}
+          title="Comment"
         />
         <EditModal
           show={showEditModal}

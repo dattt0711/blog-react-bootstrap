@@ -76,7 +76,7 @@ const Home = () => {
     await fetchCreateBlog(tempParams);
     setShow(false);
     setCreateParams(initialValue);
-    setReset(true);
+    setReset(prev => !prev);
   }
 
   // handle create 
@@ -118,6 +118,12 @@ const Home = () => {
       page: value,
     })
   }
+  const handleDelete = async (blogId) => {
+    await fetchDeleteBlogApi({
+      blogId,
+    })
+    setReset(prev => !prev);
+  }
   return (
     <div style={{ minHeight: "100vh" }}>
       {/* Page Header */}
@@ -128,7 +134,7 @@ const Home = () => {
       />
 
       {/* Blog List & Empty View */}
-      {!blogs.length ? <EmptyList /> : <BlogList blogs={blogs} />}
+      {!blogs.length ? <EmptyList /> : <BlogList blogs={blogs} handleDelete={handleDelete} />}
       <div className="d-flex justify-content-center mt-5">
         <PaginationComponent handlePagination={handlePagination} paginator={paginator} />
       </div>

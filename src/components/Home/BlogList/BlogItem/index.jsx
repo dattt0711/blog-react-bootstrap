@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Chip from '../../../common/Chip';
 import './styles.css';
-
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { Button } from 'react-bootstrap';
 const BlogItem = ({
   blog: {
     description,
@@ -14,6 +15,7 @@ const BlogItem = ({
     category,
     _id,
   },
+  handleDelete,
 }) => {
   return (
     <div className='blogItem-wrap'>
@@ -29,9 +31,15 @@ const BlogItem = ({
             <p>{createdAt}</p>
           </div>
         </div>
-        <Link className='blogItem-link' to={`/blog/${_id}`}>
-          ➝
-        </Link>
+        <div>
+          <Button onClick={() => handleDelete(_id)} className="btn-grad">
+            Delete
+          </Button>
+          <Link className='blogItem-link' to={`/blog/${_id}`}>
+            ➝
+          </Link>
+        </div>
+
       </footer>
     </div>
   );

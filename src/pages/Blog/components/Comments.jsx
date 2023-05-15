@@ -18,7 +18,7 @@ const CommentsComponent = (props) => {
                     </Col>
                     <Col sm={10}>
                         <div className="d-flex justify-content-between">
-                            <h4>User</h4>
+                            <h4>{data.username}</h4>
                             <RatingStar maxRating={5} value={data?.rating} isShowValue={true} />
                         </div>
                         <p>{data?.comment}</p>

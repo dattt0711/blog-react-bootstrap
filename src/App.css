@@ -46,10 +46,10 @@ input {
   font-size: 0.8rem !important;
 }
 
-.btn-grad.sm {
+/* .btn-grad.sm {
   font-size: 0.6rem !important;
   padding: 6px 20px !important;
-}
+} */
 
 .btn-grad:hover {
   background-position: right center;
