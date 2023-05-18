@@ -47,3 +47,9 @@
 .tag-list {
   overflow: hidden;
 }
+
+
+.related-des {
+  height: 220px;
+  overflow: hidden;
+}

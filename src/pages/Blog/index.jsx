@@ -234,7 +234,7 @@ const Blog = () => {
                       {/* <RatingStar maxRating={5} value={data.rating} isShowValue={true} /> */}
                     </div>
                   </Card.Title>
-                  <Card.Text className="border-bottom pb-2">
+                  <Card.Text className="border-bottom pb-2 related-des">
                     {data.description}
                   </Card.Text>
                   <div className="d-flex justify-content-end tag-list">
